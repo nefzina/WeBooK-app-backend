@@ -31,17 +31,13 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/login", "/register", "/password-forgotten/**", "/new-password/**").permitAll()
-                        .requestMatchers("/users/**", "/uploads/**").authenticated()
+                        .requestMatchers("/users/**").authenticated()
 
-                        .requestMatchers(HttpMethod.GET, "/books/**", "/categories/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/books/**", "/categories/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/books/**", "/categories/**", "/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/books/**", "/categories/**", "/uploads/**").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/books/**", "/categories/**").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/books/**", "/categories/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/books/**", "/categories/**", "/uploads/**").authenticated()
 
-                        .requestMatchers(HttpMethod.GET, "/categories/**", "/categories/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/categories/**", "/categories/**").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/categories/**", "/categories/**").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/categories/**", "/categories/**").authenticated()
                 )
                 .csrf((csrf) -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // csrf protection
                         .ignoringRequestMatchers("/register", "/login")

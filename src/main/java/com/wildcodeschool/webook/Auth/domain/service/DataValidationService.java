@@ -19,7 +19,7 @@ public class DataValidationService implements IDataValidationService {
 
     @Override
     public boolean PasswordValidation(String password) {
-        return Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=*!-])(?=\\S+$).{8,20}$", Pattern.CASE_INSENSITIVE)
+        return Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&€+=*!-])(?=\\S+$).{8,20}$", Pattern.CASE_INSENSITIVE)
                 .matcher(password)
                 .matches();
     }
