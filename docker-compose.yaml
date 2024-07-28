@@ -16,13 +16,13 @@ services:
   app:
     build:
       context: .
-      dockerfile: DockerFile
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db-webook:3306/webook
-      - SPRING_DATASOURCE_USERNAME=amani
-      - SPRING_DATASOURCE_PASSWORD=simple
+      - SPRING_DATASOURCE_USERNAME=alexandra
+      - SPRING_DATASOURCE_PASSWORD=alexandra
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       - db-webook

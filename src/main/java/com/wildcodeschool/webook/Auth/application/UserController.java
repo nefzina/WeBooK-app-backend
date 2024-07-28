@@ -31,8 +31,6 @@ public class UserController {
     @GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> readOne(@PathVariable Long id) {
-
-        System.err.println(id);
         return ResponseEntity.status(200).body(userService.getOneUser(id));
     }
 
@@ -45,6 +43,7 @@ public class UserController {
     public UserDTO edit(@RequestBody User newUser, @PathVariable Long id) {
         return userService.updateUser(newUser, id);
     }
+
     @PatchMapping(value = "/users/{id}/pw")
     public HttpStatus editPassword(@RequestBody PasswordDTO passwordDTO, @PathVariable Long id) {
         return userService.updatePassword(passwordDTO, id);

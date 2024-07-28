@@ -20,16 +20,16 @@ public class CategoryService {
     }
 
     public Category getOneCategory(Long id) {
-        return repository.findById(id).orElseThrow(() -> new NotFoundException());
+        return repository.findById(id).orElseThrow(NotFoundException::new);
     }
 
-    public Category addCategory(Category newCategory, Long id){
+    public Category addCategory(Category newCategory) {
         return repository.save(newCategory);
     }
 
-    public Category updateCategory(Category newCategory, Long id){
+    public Category updateCategory(Category newCategory, Long id) {
         return repository.findById(id)
-                .map( category -> {
+                .map(category -> {
                     category.setType((newCategory.getType()));
                     category.setUsers(newCategory.getUsers());
                     return repository.save(category);

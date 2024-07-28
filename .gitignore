@@ -34,4 +34,5 @@ build/
 .vscode/
 .env
 
-!upload-dir
+!**/upload-dir
+!**/src/main/resources/application.properties

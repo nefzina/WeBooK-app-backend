@@ -9,8 +9,8 @@ import java.util.List;
 
 public record UserDTO(
         String email,
-        String username,
-        Number zip_code,
+        String username, 
+        String zip_code,
         String city,
         Role role,
         List<Category> preferences,

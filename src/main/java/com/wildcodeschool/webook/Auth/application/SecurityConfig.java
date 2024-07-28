@@ -3,6 +3,7 @@ package com.wildcodeschool.webook.Auth.application;
 import com.wildcodeschool.webook.Auth.domain.service.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -29,9 +30,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/login", "/register", "/books","/uploads/**", "/categories/**", "/password-forgotten/**", "/new-password/**").permitAll()
-                        .requestMatchers("/users/**")
-                        .authenticated()
+                        .requestMatchers("/login", "/register", "/password-forgotten/**", "/new-password/**").permitAll()
+                        .requestMatchers("/users/**").authenticated()
+
+                        .requestMatchers(HttpMethod.GET, "/books/**", "/categories/**", "/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/books/**", "/categories/**", "/uploads/**").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/books/**", "/categories/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/books/**", "/categories/**", "/uploads/**").authenticated()
+
                 )
                 .csrf((csrf) -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // csrf protection
                         .ignoringRequestMatchers("/register", "/login")

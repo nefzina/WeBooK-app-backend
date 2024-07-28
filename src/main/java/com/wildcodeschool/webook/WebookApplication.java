@@ -18,7 +18,6 @@ public class WebookApplication {
 	@Bean
 	CommandLineRunner init(IUploadService iUploadService) {
 		return (args) -> {
-			iUploadService.deleteAll();
 			iUploadService.init();
 		};
 	}

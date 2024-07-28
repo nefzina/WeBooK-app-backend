@@ -10,6 +10,6 @@ public class MediaMapper {
     public MediaDTO transformMediaEntityIntoMediaDTO(Media media) {
         return new MediaDTO(
                 media.getId(),
-                media.getFileName());
+                media.getFilename());
     }
 }

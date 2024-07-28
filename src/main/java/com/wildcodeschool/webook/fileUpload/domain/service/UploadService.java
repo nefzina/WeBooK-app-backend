@@ -19,19 +19,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @Service
 public class UploadService implements IUploadService {
     private final MediaRepository mediaRepository;
     private final Path rootLocation;
-    private final  StorageProperties properties;
+    private final StorageProperties properties;
     private final MediaMapper mediaMapper;
 
     public UploadService(MediaRepository mediaRepository, StorageProperties properties, MediaMapper mediaMapper) {
         this.mediaRepository = mediaRepository;
         this.properties = properties;
-        this.mediaMapper =  mediaMapper;
+        this.mediaMapper = mediaMapper;
 
         if (properties.getLocation().trim().isEmpty()) {
             throw new StorageException("File upload location can not be Empty.");
@@ -50,13 +51,26 @@ public class UploadService implements IUploadService {
 
     @Override
     public MediaDTO store(MultipartFile file) {
-        try{
-            if(file.isEmpty()){
+        try {
+            if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file.");
             }
+
             String cleanedFilename = this.cleanFilename(file.getOriginalFilename());
-            Path destinationFile = this.rootLocation.resolve(Paths.get(cleanedFilename)).normalize().toAbsolutePath();
-            if(!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())){
+            String cleanedUniqueFilename = "";
+
+            // seperate the filename from its extension to insert the uuid in between
+            int lastDotIndex = cleanedFilename.lastIndexOf('.');
+            if (lastDotIndex != -1) {
+                String name = cleanedFilename.substring(0, lastDotIndex);
+                String extension = cleanedFilename.substring(lastDotIndex);
+                cleanedUniqueFilename = name + UUID.randomUUID().toString() + extension;
+            } else {
+                // if the file has no extension, return error
+                throw new StorageException("Wrong file extension.");
+            }
+            Path destinationFile = this.rootLocation.resolve(Paths.get(cleanedUniqueFilename)).normalize().toAbsolutePath();
+            if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 throw new StorageException("Cannot store file outside current directory."); //security check
             }
             try (InputStream inputStream = file.getInputStream()) {
@@ -66,11 +80,12 @@ public class UploadService implements IUploadService {
 
             // Créez et configurez l'objet Media avec le nom de fichier nettoyé, faire DTO
             Media media = new Media();
-            media.setFileName(cleanedFilename);
+            media.setFilename(cleanedUniqueFilename);
 
             return mediaMapper.transformMediaEntityIntoMediaDTO(this.mediaRepository.save(media));
+        } catch (IOException e) {
+            throw new StorageException("Failed to store file.", e);
         }
-        catch (IOException e) { throw new StorageException("Failed to store file.", e);}
     }
 
     @Override
@@ -79,8 +94,7 @@ public class UploadService implements IUploadService {
             return Files.walk(this.rootLocation, 1)
                     .filter(path -> !path.equals(this.rootLocation))
                     .map(this.rootLocation::relativize);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
         }
     }
@@ -97,14 +111,11 @@ public class UploadService implements IUploadService {
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
-            }
-            else {
+            } else {
                 throw new UploadedFileNotFoundException(
                         "Could not read file: " + filename);
-
             }
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             throw new UploadedFileNotFoundException("Could not read file: " + filename, e);
         }
     }
