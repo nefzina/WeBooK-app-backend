@@ -41,25 +41,13 @@ public class BookController {
         return bookService.getBooksByCategory(categoryId);
     }
 
-    @PostMapping(value = "/books") //, consumes = MediaType.MULTIPART_FORM_DATA_VALUE
-//    public Book create(@RequestPart("newBook") Book newBook,
-//                       @RequestPart("coverImage") MultipartFile coverImage)
-    public Book create(@RequestBody Book newBook)
-    {
-        System.out.println("Received book: " + newBook);
-
-        // Traitement de la nouvelle image
-        // Enregistrement de l'image dans votre système de stockage
-        // Liaison de l'image à l'objet Book
-        return bookService.createBook(newBook);
+    @PostMapping(value = "/books")
+    public ResponseEntity<?> create(@RequestBody Book newBook) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.createBook(newBook));
     }
 
-
     @PutMapping("/books/{id}")
-    public Book update(@RequestBody Book newBook, @PathVariable Long id)
-
-    {
-        System.err.println(newBook.getOwner());
+    public Book update(@RequestBody Book newBook, @PathVariable Long id) {
         return bookService.updateBook(newBook, id);
     }
 

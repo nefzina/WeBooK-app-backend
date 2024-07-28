@@ -1,7 +1,10 @@
 package com.wildcodeschool.webook.auth;
 
 import com.wildcodeschool.webook.Auth.domain.entity.User;
+import com.wildcodeschool.webook.Auth.infrastructure.repository.UserRepository;
+import com.wildcodeschool.webook.book.infrastructure.repository.CategoryRepository;
 import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -32,8 +35,8 @@ public class AuthControllerTest {
         JSONObject jo = new JSONObject();
         jo.put("username", "pie");
         jo.put("email", "apple@mail.com");
-        jo.put("password", "applePie");
-        jo.put("zip_code", 31300);
+        jo.put("password", "Appl€P2e");
+        jo.put("zip_code", "31300");
         jo.put("city", "toulouse");
 
         mockMvc.perform(

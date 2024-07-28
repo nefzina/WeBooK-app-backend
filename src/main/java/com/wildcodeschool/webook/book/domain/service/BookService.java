@@ -38,9 +38,6 @@ public class BookService {
     }
 
     public Book getOneBook(Long id) {
-        System.err.println(id);
-        System.err.println(repository.findById(id));
-
         return repository.findById(id)
                 .orElseThrow(NotFoundException::new);
     }
@@ -56,14 +53,9 @@ public class BookService {
     }
 
     public Book createBook(Book newBook) {
-
-        //vérifie si les données du livre passent la validation
         if (dataValidationService.BookDataValidation(newBook)) {
-            //Si les données sont validées, définit le propriétaire du livre en utilisant le cookie de l'utilisateur actuel
             newBook.setOwner(cookieService.getUserByCookie());
-            //Enregistrez le nouveau livre en utilisant le repository JPA, cela créera ou mettra à jour le livre dans la base de données
             return repository.save(newBook);
-            // Si les données ne sont pas valides, lancez une exception de type WrongDataFormatException
         } else throw new WrongDataFormatException("Book name, author or ISBN");
     }
 
@@ -72,7 +64,6 @@ public class BookService {
             return repository.findById(id)
                     .map(book -> {
                         book.setName(newBook.getName());
-                       // book.setOwner(newBook.getOwner());
                         book.setCoverImage(newBook.getCoverImage());
                         book.setAuthor(newBook.getAuthor());
                         book.setEdition(newBook.getEdition());
@@ -90,5 +81,4 @@ public class BookService {
     public void deleteBook(Long id) {
         repository.deleteById(id);
     }
-
 }

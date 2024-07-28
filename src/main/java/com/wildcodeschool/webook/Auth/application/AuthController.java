@@ -53,6 +53,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User userBody) throws RegistrationErrorException {
+        System.err.println(userBody.getEmail());
         try {
             UserDTO res = userRegistrationService.registration(userBody);
             return ResponseEntity.status(HttpStatus.CREATED).body(res);
