@@ -50,7 +50,7 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           port: ${{ secrets.VPS_PORT }}
           script: |
-            cd blog_spring
+            cd WeBooK-app-backend
             git checkout QA
             git pull 
             docker compose up -d
