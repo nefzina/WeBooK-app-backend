@@ -3,7 +3,7 @@ INSERT INTO role (id, type) VALUES
                                 (2, 'admin');
 
 INSERT INTO "user" (id, is_enabled, role_id, city, username, email, password, zip_code) VALUES
-            (1, true, 1, 'Bordeaux', 'cookie', 'cookie@mail.com', '$2a$10$aWz/yD2qvCeTvYdbjNxpZO4w/N4n3uVTNDtYVYQ0zQJs3C.1LE0ae', 56000),
+            (1, true, 1, null, 'louli', 'louli@mail.com', '$2a$10$7ZXMdQEmZn4XUW3WsdET6uia9YSKWAB3fyUyYaM03JWzUKH5Qy266', null),
             (2, true, 2, null, 'applePie', 'apple@mail.com', '$2a$10$w7.PKfBy/b4CotM03.utYOIfdlvHdW6BIXpJZgAcYxDfIEELjf8I.', null);
 
 INSERT INTO category (id, category) VALUES
