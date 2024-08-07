@@ -16,7 +16,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
     public static final long JWT_TOKEN_VALIDITY = 60L * 60L; // 1 hour
-    private static String secretKey = "PXdrWTF3JmRvOEV0+OT1lQWU0CjBZbjRrVG9jZG9/LWkpzdiY4QQojV2ZWZEh2YzlDRnhyMUVGYmIKNkU9KlN0Y0FPViFYK0JWSm+1CCmd1b21PYjExTmYkIzUySCZobgpSWCROVUQjRCV/VYUE1Iyo2cCoKT3BiRnZaSDkmZDE3UkNQNnNl";
+    //private static String secretKey = "PXdrWTF3JmRvOEV0+OT1lQWU0CjBZbjRrVG9jZG9/LWkpzdiY4QQojV2ZWZEh2YzlDRnhyMUVGYmIKNkU9KlN0Y0FPViFYK0JWSm+1CCmd1b21PYjExTmYkIzUySCZobgpSWCROVUQjRCV/VYUE1Iyo2cCoKT3BiRnZaSDkmZDE3UkNQNnNl";
 
     public Token generateToken(UserPrincipal userPrincipal) {
         Date now = new Date();
@@ -31,7 +31,7 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        byte[] keyBytes = Decoders.BASE64.decode(${{ secrets.JWT_SECRET_KEY }});
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -46,7 +46,7 @@ public class JwtService {
 
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
-                .setSigningKey(secretKey)
+                .setSigningKey(${{ secrets.JWT_SECRET_KEY }})
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
