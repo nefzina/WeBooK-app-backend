@@ -34,7 +34,7 @@ public class AuthControllerTest {
     public void testRegister() throws Exception {
         JSONObject jo = new JSONObject();
         jo.put("username", "pie");
-        jo.put("email", "apple2@mail.com");
+        jo.put("email", "apple.pie@mail.com");
         jo.put("password", "Appl€P2e");
         jo.put("zip_code", "31300");
         jo.put("city", "toulouse");
@@ -47,16 +47,16 @@ public class AuthControllerTest {
         )
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("pie"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("apple2@mail.com"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.zip_code").value(31300))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("apple.pie@mail.com"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.zip_code").value("31300"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.city").value("toulouse"));
     }
 
     @Test
     public void testLogin() throws Exception {
         JSONObject jsonUser = new JSONObject();
-        jsonUser.put("email", "cookie@mail.com");
-        jsonUser.put("password", "Wxc123%$");
+        jsonUser.put("email", "louli@mail.com");
+        jsonUser.put("password", "L0ul!123");
 
         mockMvc
                 .perform(MockMvcRequestBuilders.post("/login")
