@@ -1,7 +1,10 @@
 name: Build and deploy
 
 on:
-  push:
+  # push:
+  #   branches:
+  #     - QA
+  pull_request:
     branches:
       - QA
 jobs:
