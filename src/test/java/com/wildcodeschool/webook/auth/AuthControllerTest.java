@@ -47,7 +47,7 @@ public class AuthControllerTest {
         )
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("pie"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("apple@mail.com"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("apple.pie@mail.com"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.zip_code").value("31300"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.city").value("toulouse"));
     }
