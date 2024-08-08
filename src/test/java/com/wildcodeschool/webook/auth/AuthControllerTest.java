@@ -34,7 +34,7 @@ public class AuthControllerTest {
     public void testRegister() throws Exception {
         JSONObject jo = new JSONObject();
         jo.put("username", "pie");
-        jo.put("email", "apple@mail.com");
+        jo.put("email", "apple2@mail.com");
         jo.put("password", "Appl€P2e");
         jo.put("zip_code", "31300");
         jo.put("city", "toulouse");
@@ -47,7 +47,7 @@ public class AuthControllerTest {
         )
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("pie"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("apple@mail.com"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("apple2@mail.com"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.zip_code").value(31300))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.city").value("toulouse"));
     }
