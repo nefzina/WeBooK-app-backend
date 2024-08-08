@@ -6,9 +6,9 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: 'webook'
-      MYSQL_USER: ${{ secrets.DB_USERNAME }}
-      MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      MYSQL_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
+      MYSQL_USER: ${ DB_USERNAME }
+      MYSQL_PASSWORD: ${ DB_PASSWORD }
+      MYSQL_ROOT_PASSWORD: ${ DB_ROOT_PASSWORD }
     ports:
       - '3307:3306'
     volumes:

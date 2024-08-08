@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService implements IEmailService {
-    @Value("${{ secrets.MJ_APIKEY_PUBLIC }}")
+    @Value("${ MJ_APIKEY_PUBLIC }")
     private String apiPublic;
 
-    @Value("${{ secrets.MJ_APIKEY_PRIVATE }}")
+    @Value("${ MJ_APIKEY_PRIVATE }")
     private String apiPrivate;
 
     @Override

@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -17,6 +18,9 @@ import java.util.function.Function;
 public class JwtService {
     public static final long JWT_TOKEN_VALIDITY = 60L * 60L; // 1 hour
     //private static String secretKey = "PXdrWTF3JmRvOEV0+OT1lQWU0CjBZbjRrVG9jZG9/LWkpzdiY4QQojV2ZWZEh2YzlDRnhyMUVGYmIKNkU9KlN0Y0FPViFYK0JWSm+1CCmd1b21PYjExTmYkIzUySCZobgpSWCROVUQjRCV/VYUE1Iyo2cCoKT3BiRnZaSDkmZDE3UkNQNnNl";
+
+    @Value("${JWT_SECRET_KEY}")
+    private String jwtSecretKey;
 
     public Token generateToken(UserPrincipal userPrincipal) {
         Date now = new Date();
@@ -31,7 +35,7 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(${{ secrets.JWT_SECRET_KEY }});
+        byte[] keyBytes = Decoders.BASE64.decode(jwtSecretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -46,7 +50,7 @@ public class JwtService {
 
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
-                .setSigningKey(${{ secrets.JWT_SECRET_KEY }})
+                .setSigningKey(jwtSecretKey)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
