@@ -5,8 +5,6 @@ import com.mailjet.client.MailjetClient;
 import com.mailjet.client.errors.MailjetException;
 import com.mailjet.client.transactional.*;
 import com.mailjet.client.transactional.response.SendEmailsResponse;
-import com.wildcodeschool.webook.Auth.domain.service.interfaces.IEmailService;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
