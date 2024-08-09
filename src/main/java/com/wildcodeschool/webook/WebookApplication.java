@@ -12,13 +12,12 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class WebookApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(WebookApplication.class, args);
-	}
-	@Bean
-	CommandLineRunner init(IUploadService iUploadService) {
-		return (args) -> {
-			iUploadService.init();
-		};
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(WebookApplication.class, args);
+    }
+
+    @Bean
+    CommandLineRunner init(IUploadService iUploadService) {
+        return args -> iUploadService.init();
+    }
 }

@@ -5,16 +5,15 @@ import com.mailjet.client.MailjetClient;
 import com.mailjet.client.errors.MailjetException;
 import com.mailjet.client.transactional.*;
 import com.mailjet.client.transactional.response.SendEmailsResponse;
-import com.wildcodeschool.webook.Auth.domain.service.interfaces.IEmailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService implements IEmailService {
-    @Value("${ MJ_APIKEY_PUBLIC }")
+    @Value("${MJ_APIKEY_PUBLIC}")
     private String apiPublic;
 
-    @Value("${ MJ_APIKEY_PRIVATE }")
+    @Value("${MJ_APIKEY_PRIVATE}")
     private String apiPrivate;
 
     @Override
