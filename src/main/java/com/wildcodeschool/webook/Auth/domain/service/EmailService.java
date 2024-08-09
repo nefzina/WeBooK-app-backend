@@ -19,7 +19,7 @@ public class EmailService implements IEmailService {
     private String apiPrivate;
 
     @Override
-    public void SendMail(String recipientEmail, String body) throws MailjetException {
+    public void sendMail(String recipientEmail, String body) throws MailjetException {
 
         ClientOptions options = ClientOptions.builder()
                 .apiKey(apiPublic)
