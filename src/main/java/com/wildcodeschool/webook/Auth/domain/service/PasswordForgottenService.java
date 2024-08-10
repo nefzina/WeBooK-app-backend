@@ -65,7 +65,7 @@ public class PasswordForgottenService implements IPasswordForgottenService {
 
     @Override
     public void mailSender(User user, String token) throws MailjetException {
-        emailService.sendMail(user.getEmail(), "Vous nous avez indiqué avoir oublié votre mot de passe." +
+        emailService.sendMail(user, "Vous nous avez indiqué avoir oublié votre mot de passe." +
                 " Si c'est vraiment le cas, cliquez ce lien pour en choisir un nouveau : http://localhost:4200/password-forgotten/" + token);
     }
 
