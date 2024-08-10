@@ -5,8 +5,8 @@ import com.mailjet.client.MailjetClient;
 import com.mailjet.client.errors.MailjetException;
 import com.mailjet.client.transactional.*;
 import com.mailjet.client.transactional.response.SendEmailsResponse;
+import com.wildcodeschool.webook.Auth.domain.entity.User;
 import com.wildcodeschool.webook.Auth.domain.service.interfaces.IEmailService;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class EmailService implements IEmailService {
     private String apiPrivate;
 
     @Override
-    public void sendMail(String recipientEmail, String body) throws MailjetException {
+    public void sendMail(User user, String body) throws MailjetException {
 
         ClientOptions options = ClientOptions.builder()
                 .apiKey(apiPublic)
@@ -30,7 +30,7 @@ public class EmailService implements IEmailService {
 
         TransactionalEmail message1 = TransactionalEmail
                 .builder()
-                .to(new SendContact(recipientEmail, "stanislav"))
+                .to(new SendContact(user.getEmail(), user.getUsername()))
                 .from(new SendContact("amani-nefzi_student2023@wilder.school", "WeBooK"))
                 .htmlPart("<h1>Mot de passe oublié</h1><p>"+body+"</p>")
                 .subject("Mot de passe oublié")
@@ -42,9 +42,6 @@ public class EmailService implements IEmailService {
                 .message(message1) // you can add up to 50 messages per request
                 .build();
 
-        // act
         SendEmailsResponse response = request.sendWith(client);
-
-
     }
 }
