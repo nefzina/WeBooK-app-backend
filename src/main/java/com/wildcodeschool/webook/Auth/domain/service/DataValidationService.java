@@ -19,7 +19,9 @@ public class DataValidationService implements IDataValidationService {
 
     @Override
     public boolean PasswordValidation(String password) {
-        return Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&€+=*!-])(?=\\S+$).{8,20}$", Pattern.CASE_INSENSITIVE)
+        return Pattern.compile(
+                "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&€+=*!-])(?=\\S+$).{8,20}$",
+                        Pattern.CASE_INSENSITIVE)
                 .matcher(password)
                 .matches();
     }
@@ -40,7 +42,7 @@ public class DataValidationService implements IDataValidationService {
 
     @Override
     public boolean BookDataValidation(Book book) {
-        Boolean isNameValid = Pattern.compile("^(?!\\s*$)[a-zA-Z\\s]{1,50}$", Pattern.CASE_INSENSITIVE)
+        Boolean isNameValid = Pattern.compile("^(?!\\s*$)[a-zA-Z0-9\\s]{1,50}$", Pattern.CASE_INSENSITIVE)
                 .matcher(book.getName())
                 .matches();
 

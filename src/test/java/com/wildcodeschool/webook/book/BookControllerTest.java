@@ -48,16 +48,7 @@ public class BookControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
         );
         MvcResult result = resultActions.andReturn();
-        // Extract token from the Set-Cookie header
-        String setCookieHeader = result.getResponse().getHeader("Set-Cookie");
-        Cookie authCookie = null;
-        if (setCookieHeader != null) {
-            String token = setCookieHeader.split("token=")[1].split(";")[0];
-            authCookie = new Cookie("token", token);
-            authCookie.setPath("/");
-            authCookie.setHttpOnly(true);
-        }
-        return authCookie;
+        return result.getResponse().getCookie("token");
     }
 
     @Test
@@ -85,6 +76,31 @@ public class BookControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("maybe someday"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.author").value("colleen hoover"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value("1649374178"))
+        ;
+    }
+
+    @Test
+    public void testAddBookWithInvalidData() throws Exception {
+
+        JSONObject category = new JSONObject();
+        category.put("id", 1);
+        category.put("type", "Bandes dessinées");
+
+        JSONObject book = new JSONObject();
+        book.put("name", "ma*");
+        book.put("author", "");
+        book.put("isbn", "1649");
+        book.put("bookCategory", category);
+        // owner is set in the controller from the cookie data
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .post("/books")
+                                .cookie(loginHelper())
+                                .content(book.toString())
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
         ;
     }
 }

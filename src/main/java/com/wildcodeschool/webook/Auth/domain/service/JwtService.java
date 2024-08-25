@@ -38,6 +38,11 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    public boolean isTokenValid(String token, UserPrincipal userPrincipal) {
+        final String email = getEmailFromToken(token);
+        return (email.equals(userPrincipal.getEmail()) && !isTokenExpired(token));
+    }
+
     public String getEmailFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
@@ -55,16 +60,11 @@ public class JwtService {
                 .getBody();
     }
 
-    public boolean isTokenValid(String token, UserPrincipal userPrincipal) {
-        final String email = getEmailFromToken(token);
-        return (email.equals(userPrincipal.getEmail()) && !isTokenExpired(token));
+    private Boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
     }
 
     public Date extractExpiration(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
-    }
-
-    private Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
     }
 }
