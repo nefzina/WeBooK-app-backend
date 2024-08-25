@@ -40,16 +40,32 @@ public class AuthControllerTest {
         jo.put("city", "toulouse");
 
         mockMvc.perform(
-                MockMvcRequestBuilders
-                        .post("/register")
-                        .content(jo.toString())
-                        .contentType(MediaType.APPLICATION_JSON)
-        )
+                        MockMvcRequestBuilders
+                                .post("/register")
+                                .content(jo.toString())
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("pie"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("apple.pie@mail.com"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.zip_code").value("31300"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.city").value("toulouse"));
+    }
+
+    @Test
+    public void testRegisterWithInvalidData() throws Exception {
+        JSONObject jo = new JSONObject();
+        jo.put("username", "");
+        jo.put("email", "invalid-email");
+        jo.put("password", "123");
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .post("/register")
+                                .content(jo.toString())
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
@@ -66,6 +82,21 @@ public class AuthControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.cookie().exists("token"))
                 .andReturn()
+        ;
+    }
+
+    @Test
+    public void testLoginWithInvalidData() throws Exception {
+        JSONObject jsonUser = new JSONObject();
+        jsonUser.put("email", "louli.mail.com");
+        jsonUser.put("password", "L0ul!123");
+
+        mockMvc
+                .perform(MockMvcRequestBuilders.post("/login")
+                        .content(jsonUser.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
         ;
     }
 }

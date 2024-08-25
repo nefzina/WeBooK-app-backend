@@ -46,7 +46,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/webook:latest  # webook is the name of docker repo
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/webook_app:latest  # webook_app is the name of docker repo
 
       - name: deploy on vps
         uses: appleboy/ssh-action@v1.0.3

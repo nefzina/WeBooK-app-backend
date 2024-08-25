@@ -11,37 +11,28 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
-
 @Entity
 @Table(name = "`user`")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "username", nullable = false, length = 20)
     private String username;
-
     @Column(name = "email", nullable = false, unique = true, length = 50)
     private String email;
-
     @Column(name = "password", nullable = false)
     private String password;
-
     @Column(name = "zipCode", length = 5)
     private String zip_code;
-
     @Column(name = "city", length = 10)
     private String city;
-
     @Column(name = "isEnabled", nullable = false)
     private Boolean isEnabled;
-
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, optional = false)
     @JoinColumn(name = "role_id", nullable = false)
     @JsonIgnore
     private Role role;
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinTable(
             name = "category_preferences",
@@ -49,15 +40,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<Category> preferences;
-
     @JsonManagedReference(value="user-books")
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Book> books;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "picture_id", referencedColumnName = "id")
     private Media profilePicture;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<PasswordToken> passwordTokens;
 
