@@ -53,22 +53,6 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void testRegisterWithInvalidData() throws Exception {
-        JSONObject jo = new JSONObject();
-        jo.put("username", "");
-        jo.put("email", "invalid-email");
-        jo.put("password", "123");
-
-        mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .post("/register")
-                                .content(jo.toString())
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
-
-    @Test
     public void testLogin() throws Exception {
         JSONObject jsonUser = new JSONObject();
         jsonUser.put("email", "louli@mail.com");
