@@ -15,9 +15,9 @@ jobs:
       JWT_SECRET_KEY: ${{secrets.JWT_SECRET_KEY}}
       MJ_APIKEY_PRIVATE: ${{secrets.MJ_APIKEY_PRIVATE}}
       MJ_APIKEY_PUBLIC: ${{secrets.MJ_APIKEY_PUBLIC}}
-      DB_USERNAME: ${{ secrets.DB_USERNAME }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
+      DB_USERNAME: ${{secrets.DB_USERNAME}}
+      DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+      DB_ROOT_PASSWORD: ${{secrets.DB_ROOT_PASSWORD}}
 
     steps:
       - uses: actions/checkout@v4
