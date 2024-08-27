@@ -57,6 +57,6 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           script: |
             cd WeBooK-app-backend
-            git checkout QA
+            git checkout origin/QA
             git pull 
             docker compose up -d
