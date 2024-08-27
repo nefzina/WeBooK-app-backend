@@ -59,4 +59,7 @@ jobs:
             cd WeBooK-app-backend
             git checkout QA
             git pull origin QA
+            export DB_USERNAME=${{secrets.DB_USERNAME}}
+            export DB_PASSWORD=${{secrets.DB_PASSWORD}}
+            export DB_ROOT_PASSWORD=${{secrets.DB_ROOT_PASSWORD}}
             sudo docker compose up -d
