@@ -23,6 +23,8 @@ jobs:
      - uses: actions/checkout@v4
      - name: Decrypt large secret
        run: ./decrypt_secret.sh
+       env:
+         DB_USERNAME: ${{ secrets.DB_USERNAME }}
      - name: Test printing DB_USERNAME
        run: cat $HOME/secrets/DB_USERNAME.json
       
