@@ -15,9 +15,9 @@ jobs:
       JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
       MJ_APIKEY_PRIVATE: ${{ secrets.MJ_APIKEY_PRIVATE }}
       MJ_APIKEY_PUBLIC: ${{ secrets.MJ_APIKEY_PUBLIC }}
-      DB_USERNAME: ${{ secrets.DB_USERNAME }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
+      DB_USERNAME: 'test' #${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: 'test1+' #${{ secrets.DB_PASSWORD }}
+      DB_ROOT_PASSWORD: 'test2+' #${{ secrets.DB_ROOT_PASSWORD }}
 
     steps:   
      - uses: actions/checkout@v4
@@ -66,7 +66,4 @@ jobs:
            cd WeBooK-app-backend
            git checkout QA
            git pull origin QA
-           export DB_USERNAME=${{ secrets.DB_USERNAME }}
-           export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-           export DB_ROOT_PASSWORD=${{ secrets.DB_ROOT_PASSWORD }}
            sudo docker compose up -d
