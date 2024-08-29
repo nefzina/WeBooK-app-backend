@@ -15,9 +15,9 @@ jobs:
       JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
       MJ_APIKEY_PRIVATE: ${{ secrets.MJ_APIKEY_PRIVATE }}
       MJ_APIKEY_PUBLIC: ${{ secrets.MJ_APIKEY_PUBLIC }}
-      DB_USERNAME: 'test' #${{ secrets.DB_USERNAME }}
-      DB_PASSWORD: 'test1+' #${{ secrets.DB_PASSWORD }}
-      DB_ROOT_PASSWORD: 'test2+' #${{ secrets.DB_ROOT_PASSWORD }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
 
     steps:   
      - uses: actions/checkout@v4
@@ -47,13 +47,6 @@ jobs:
          context: .
          push: true
          tags: ${{ secrets.DOCKERHUB_USERNAME }}/webook_app:latest  # webook_app is the name of docker repo
-
-     - uses: actions/checkout@v4
-     - name: Set up environment
-       run: |
-          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> $GITHUB_ENV
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
-          echo "DB_ROOT_PASSWORD=${{ secrets.DB_ROOT_PASSWORD }}" >> $GITHUB_ENV
      
      - name: deploy on vps
        uses: appleboy/ssh-action@v1.0.3
