@@ -40,11 +40,11 @@ public class AuthControllerTest {
         jo.put("city", "toulouse");
 
         mockMvc.perform(
-                MockMvcRequestBuilders
-                        .post("/register")
-                        .content(jo.toString())
-                        .contentType(MediaType.APPLICATION_JSON)
-        )
+                        MockMvcRequestBuilders
+                                .post("/register")
+                                .content(jo.toString())
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("pie"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("apple.pie@mail.com"))
@@ -55,8 +55,8 @@ public class AuthControllerTest {
     @Test
     public void testLogin() throws Exception {
         JSONObject jsonUser = new JSONObject();
-        jsonUser.put("email", "cookie@mail.com");
-        jsonUser.put("password", "Wxc123%$");
+        jsonUser.put("email", "louli@mail.com");
+        jsonUser.put("password", "L0ul!123");
 
         mockMvc
                 .perform(MockMvcRequestBuilders.post("/login")
@@ -66,6 +66,21 @@ public class AuthControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.cookie().exists("token"))
                 .andReturn()
+        ;
+    }
+
+    @Test
+    public void testLoginWithInvalidData() throws Exception {
+        JSONObject jsonUser = new JSONObject();
+        jsonUser.put("email", "louli.mail.com");
+        jsonUser.put("password", "L0ul!123");
+
+        mockMvc
+                .perform(MockMvcRequestBuilders.post("/login")
+                        .content(jsonUser.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
         ;
     }
 }

@@ -47,13 +47,12 @@ public class AuthController {
                     .body(user);
 
         } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User userBody) throws RegistrationErrorException {
-        System.err.println(userBody.getEmail());
         try {
             UserDTO res = userRegistrationService.registration(userBody);
             return ResponseEntity.status(HttpStatus.CREATED).body(res);

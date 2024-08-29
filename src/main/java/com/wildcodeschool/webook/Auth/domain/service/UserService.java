@@ -24,7 +24,9 @@ public class UserService {
     private final CategoryService categoryService;
     private final DataValidationService dataValidationService;
 
-    public UserService(UserRepository repository, BCryptPasswordEncoder bcryptPwEncoder, UserMapper userMapper, CategoryService categoryService, DataValidationService dataValidationService) {
+    public UserService(UserRepository repository, BCryptPasswordEncoder bcryptPwEncoder,
+                       UserMapper userMapper, CategoryService categoryService,
+                       DataValidationService dataValidationService) {
         this.repository = repository;
         this.bcryptPwEncoder = bcryptPwEncoder;
         this.userMapper = userMapper;
@@ -93,13 +95,16 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    public UserLoginDTO login(User user) {
-        User userEntity = getUserEntityByEmail(user.getEmail());
-
-        if (!bcryptPwEncoder.matches(user.getPassword(), userEntity.getPassword())) {
+    public UserLoginDTO login(User user) throws Exception {
+        try {
+            User userEntity = getUserEntityByEmail(user.getEmail());
+            if (!bcryptPwEncoder.matches(user.getPassword(), userEntity.getPassword())) {
+                throw new NotFoundException();
+            }
+            return userMapper.transformUserEntityInUserLoginDTO(userEntity);
+        } catch (Exception e) {
             throw new NotFoundException();
         }
-        return userMapper.transformUserEntityInUserLoginDTO(userEntity);
     }
 
     public User getUserEntityByEmail(String email) {
