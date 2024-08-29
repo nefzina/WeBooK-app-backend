@@ -6,9 +6,9 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: 'webook'
-      MYSQL_USER: 'test'
-      MYSQL_PASSWORD: 'test1+'
-      MYSQL_ROOT_PASSWORD: 'test2+'
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     ports:
       - '3307:3306'
     volumes:
@@ -22,8 +22,8 @@ services:
       - "8080:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db-webook:3306/webook
-      - SPRING_DATASOURCE_USERNAME=test
-      - SPRING_DATASOURCE_PASSWORD=test1+
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       - db-webook
