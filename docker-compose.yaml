@@ -20,6 +20,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+      - "443:443"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db-webook:3306/webook
       - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
