@@ -13,7 +13,7 @@ public class Media {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "filename", nullable = false)
+    @Column(name = "filename", nullable = false, length = 100)
     private String filename;
 
     @OneToOne(mappedBy = "profilePicture")

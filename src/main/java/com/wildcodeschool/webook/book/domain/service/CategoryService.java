@@ -30,7 +30,7 @@ public class CategoryService {
     public Category updateCategory(Category newCategory, Long id) {
         return repository.findById(id)
                 .map(category -> {
-                    category.setType((newCategory.getType()));
+                    category.setCategory((newCategory.getCategory()));
                     category.setUsers(newCategory.getUsers());
                     return repository.save(category);
                 })

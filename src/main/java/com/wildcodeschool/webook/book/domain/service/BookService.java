@@ -33,7 +33,7 @@ public class BookService {
         this.cookieService = cookieService;
     }
 
-    public List<Book> getAllBook() {
+    public List<Book> getAllBooks() {
         return repository.findAll();
     }
 
@@ -52,18 +52,22 @@ public class BookService {
         return repository.findBooksByBookCategory(category);
     }
 
+    public List<Book> getBooksByTitleOrAuthorName(String keyword) {
+        return repository.findBooksByTitleIsContainingIgnoreCaseOrAuthorIsContainingIgnoreCase(keyword, keyword);
+    }
+
     public Book createBook(Book newBook) {
         if (dataValidationService.BookDataValidation(newBook)) {
             newBook.setOwner(cookieService.getUserByCookie());
             return repository.save(newBook);
-        } else throw new WrongDataFormatException("Book name, author or ISBN");
+        } else throw new WrongDataFormatException("Book title, author or ISBN");
     }
 
     public Book updateBook(Book newBook, Long id) {
         if (dataValidationService.BookDataValidation(newBook)) {
             return repository.findById(id)
                     .map(book -> {
-                        book.setName(newBook.getName());
+                        book.setTitle(newBook.getTitle());
                         book.setCoverImage(newBook.getCoverImage());
                         book.setAuthor(newBook.getAuthor());
                         book.setEdition(newBook.getEdition());
@@ -75,7 +79,7 @@ public class BookService {
                         return repository.save(book);
                     })
                     .orElseThrow(NotFoundException::new);
-        } else throw new WrongDataFormatException("Book name, author or ISBN");
+        } else throw new WrongDataFormatException("Book title, author or ISBN");
     }
 
     public void deleteBook(Long id) {
