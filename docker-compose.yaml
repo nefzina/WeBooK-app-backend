@@ -1,18 +1,17 @@
-
 services:
   db-webook:
     container_name: db-webook
     image: mysql
     restart: always
     environment:
-      MYSQL_DATABASE: 'webook'
-      MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=webook
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     ports:
       - '3307:3306'
     volumes:
-      - db-webook:/var/lib/mysql
+      - "./db-webook:/var/lib/mysql"
 
   app:
     build:
