@@ -40,7 +40,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-
         jwt = Arrays.stream(request.getCookies())
                 .filter(cookie -> "token".equals(cookie.getName()))
                 .findFirst()

@@ -14,17 +14,17 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name", nullable = false)
-    private String name;
-    @Column(name = "author", nullable = false)
+    @Column(name = "title", nullable = false, length = 100)
+    private String title;
+    @Column(name = "author", nullable = false, length = 35)
     private String author;
-    @Column(name = "edition", nullable = true)
+    @Column(name = "edition", nullable = true, length = 20)
     private String edition;
     @Column(name = "review", nullable = true)
     private String review;
     @Column(name = "resume", nullable = true)
     private String resume;
-    @Column(name = "ISBN", nullable = true)
+    @Column(name = "ISBN", nullable = true, length = 13)
     private String isbn;
 
     @JsonBackReference(value="user-books")
@@ -51,12 +51,12 @@ public class Book {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Media getCoverImage() {

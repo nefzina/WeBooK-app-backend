@@ -59,7 +59,7 @@ public class BookControllerTest {
         category.put("type", "Bandes dessinées");
 
         JSONObject book = new JSONObject();
-        book.put("name", "maybe someday");
+        book.put("title", "maybe someday");
         book.put("author", "colleen hoover");
         book.put("isbn", "1649374178");
         book.put("bookCategory", category);
@@ -73,7 +73,7 @@ public class BookControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("maybe someday"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("maybe someday"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.author").value("colleen hoover"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value("1649374178"))
         ;
@@ -87,7 +87,7 @@ public class BookControllerTest {
         category.put("type", "Bandes dessinées");
 
         JSONObject book = new JSONObject();
-        book.put("name", "ma*");
+        book.put("title", "ma*");
         book.put("author", "");
         book.put("isbn", "1649");
         book.put("bookCategory", category);

@@ -14,16 +14,13 @@ import java.util.Arrays;
 public class CookieService {
     private final HttpServletRequest request;
     private final JwtService jwtService;
-
     private final UserRepository userRepository;
+
     public CookieService(HttpServletRequest request, JwtService jwtService, UserRepository userRepository) {
         this.request = request;
-
         this.jwtService = jwtService;
         this.userRepository = userRepository;
     }
-
-
     public ResponseCookie createCookie(Token token) {
         return ResponseCookie.from("token", token.getToken())
                 .httpOnly(true)   // Marquer le cookie comme HttpOnly pour la sécurité
@@ -32,8 +29,8 @@ public class CookieService {
                 .maxAge(60 * 60) // Définir la durée de vie du cookie (exemple : 24 heures)
                 .sameSite("Strict") // Politique SameSite pour le cookie
                 .build();
-
     }
+
     public User getUserByCookie() {
         String jwt = Arrays.stream(request.getCookies())
                 .filter(cookie -> "token".equals(cookie.getName()))
@@ -42,8 +39,5 @@ public class CookieService {
                 .orElse(null);
 
         return userRepository.findByEmail(jwtService.getEmailFromToken(jwt));
-
     }
 }
-
-
