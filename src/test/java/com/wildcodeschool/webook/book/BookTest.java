@@ -19,10 +19,10 @@ public class BookTest {
         }
 
         @Test
-        public void testBookName() {
-            String name = "The Wager";
-            book.setName(name);
-            assertEquals(book.getName(), name);
+        public void testBookTitle() {
+            String title = "The Wager";
+            book.setTitle(title);
+            assertEquals(book.getTitle(), title);
         }
 
         @Test

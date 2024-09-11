@@ -15,8 +15,8 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "category", nullable = false)
-    private String type;
+    @Column(name = "category", nullable = false, length = 50)
+    private String category;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "preferences", cascade = CascadeType.REMOVE)
@@ -35,12 +35,12 @@ public class Category {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getCategory() {
+        return category;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public List<User> getUsers() {

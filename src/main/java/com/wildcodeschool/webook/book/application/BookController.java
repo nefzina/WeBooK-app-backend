@@ -23,7 +23,7 @@ public class BookController {
 
     @GetMapping("/books")
     public List<Book> readAll() {
-        return bookService.getAllBook();
+        return bookService.getAllBooks();
     }
 
     @GetMapping("/books/{id}")
@@ -39,6 +39,11 @@ public class BookController {
     @GetMapping("/books/category/{categoryId}")
     public List<Book> readByCategoryId(@PathVariable Long categoryId) {
         return bookService.getBooksByCategory(categoryId);
+    }
+
+    @GetMapping("/books/search")
+    public List<Book> readByKeyword(@RequestParam String keyword) {
+        return bookService.getBooksByTitleOrAuthorName(keyword);
     }
 
     @PostMapping(value = "/books")

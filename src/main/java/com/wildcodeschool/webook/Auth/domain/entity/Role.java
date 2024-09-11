@@ -14,7 +14,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "type", nullable = false)
+    @Column(name = "type", nullable = false, length = 20)
     private String type;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.REFRESH)
