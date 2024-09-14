@@ -2,6 +2,7 @@ package com.wildcodeschool.webook.Auth.domain.service;
 
 import com.wildcodeschool.webook.Auth.domain.dto.UserDTO;
 import com.wildcodeschool.webook.Auth.domain.dto.UserLoginDTO;
+import com.wildcodeschool.webook.Auth.domain.dto.UserPublicDTO;
 import com.wildcodeschool.webook.Auth.domain.entity.User;
 import com.wildcodeschool.webook.fileUpload.domain.dto.MediaDTO;
 import com.wildcodeschool.webook.fileUpload.domain.service.MediaMapper;
@@ -37,6 +38,18 @@ public class UserMapper {
                 user.getId(),
                 user.getRole(),
                 user.getUsername(),
+                profilePictureDTO);
+    }
+
+    public UserPublicDTO transformUserEntityInUserPublicDTO(User user) {
+        MediaDTO profilePictureDTO = null;
+        if (user.getProfilePicture() != null) {
+            profilePictureDTO = this.mediaMapper.transformMediaEntityIntoMediaDTO(user.getProfilePicture());
+        }
+        return new UserPublicDTO(
+                user.getUsername(),
+                user.getCity(),
+                user.getBooks(),
                 profilePictureDTO);
     }
 }
