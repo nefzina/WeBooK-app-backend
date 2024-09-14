@@ -97,6 +97,8 @@ public class UserService {
 
     public UserLoginDTO login(User user) throws Exception {
         try {
+            if (!dataValidationService.PasswordValidation(user.getPassword()) && !dataValidationService.EmailValidation(user.getEmail()))
+                throw new WrongDataFormatException("Email or password");
             User userEntity = getUserEntityByEmail(user.getEmail());
             if (!bcryptPwEncoder.matches(user.getPassword(), userEntity.getPassword())) {
                 throw new NotFoundException();

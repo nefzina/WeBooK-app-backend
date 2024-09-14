@@ -31,12 +31,10 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/login", "/register", "/password-forgotten/**", "/new-password/**").permitAll()
-                        .requestMatchers("/users/**").authenticated()
-
-                        .requestMatchers(HttpMethod.GET, "/books/**", "/categories/**", "/uploads/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/books/**", "/categories/**", "/uploads/**").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/books/**", "/categories/**").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/books/**", "/categories/**", "/uploads/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/users/**","/books/**", "/categories/**", "/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/users/**","/books/**", "/categories/**", "/uploads/**").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/users/**","/books/**", "/categories/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/users/**","/books/**", "/categories/**", "/uploads/**").authenticated()
 
                 )
                 .csrf((csrf) -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // csrf protection
