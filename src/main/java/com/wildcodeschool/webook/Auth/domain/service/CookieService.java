@@ -27,7 +27,7 @@ public class CookieService {
                 .secure(true)     // Marquer le cookie comme sécurisé (transmis uniquement via HTTPS)
                 .path("/")        // Le cookie est accessible pour l'ensemble du domaine
                 .maxAge(60 * 60) // Définir la durée de vie du cookie (exemple : 24 heures)
-                .sameSite("Strict") // Politique SameSite pour le cookie
+                .sameSite("None") // Politique SameSite pour le cookie
                 .build();
     }
 

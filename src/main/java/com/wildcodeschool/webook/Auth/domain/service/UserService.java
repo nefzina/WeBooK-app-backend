@@ -64,8 +64,7 @@ public class UserService {
                         } else throw new WrongDataFormatException("Zip-code");
                     }
 
-                    user.setCity(newUser.getCity());
-                    System.out.println(newUser.getProfilePicture().getFilename());
+                    user.setCity(newUser.getCity());                    
                     user.setProfilePicture(newUser.getProfilePicture());
 
                     if (!newUser.getPreferences().isEmpty()) {

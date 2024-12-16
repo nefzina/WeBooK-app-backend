@@ -9,7 +9,7 @@ public class ApiConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // Tous les chemins
-                .allowedOrigins("https://webook-app-frontend.vercel.app") // URL(s) autorisée(s)
+                .allowedOrigins("https://webook.vercel.app", "https://webook-dev.vercel.app", "http://localhost:4200") // URL(s) autorisée(s)
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE") // Méthodes HTTP autorisées
                 .allowCredentials(true)
                 .maxAge(3600);
