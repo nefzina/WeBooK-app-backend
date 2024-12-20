@@ -1,0 +1,31 @@
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - dev
+jobs:
+  test:
+    name: Execute tests
+    runs-on: ubuntu-latest
+    env:
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb
+      SPRING_DATASOURCE_USERNAME: 'my'
+      SPRING_DATASOURCE_PASSWORD: 'password'
+      JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+      MJ_APIKEY_PRIVATE: ${{ secrets.MJ_APIKEY_PRIVATE }}
+      MJ_APIKEY_PUBLIC: ${{ secrets.MJ_APIKEY_PUBLIC }}
+
+    steps:
+      # Check out the repository
+      - uses: actions/checkout@v4
+
+      # Set up Java
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+
+      # Run tests
+      - name: Run Unit and Integration Tests
+        run: mvn -B test --file pom.xml
