@@ -1,42 +1,47 @@
 package com.wildcodeschool.webook.book.domain.entity;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.wildcodeschool.webook.user.domain.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.wildcodeschool.webook.Auth.domain.entity.User;
+import com.wildcodeschool.webook.fileUpload.domain.entity.Media;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "book")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Column(name = "owner_Id", nullable = false)
-    private String ownerId;
-
-    @Column(name = "image", nullable = true)
-    private String image;
-
-    @Column(name = "author", nullable = false)
+    @Column(name = "title", nullable = false, length = 100)
+    private String title;
+    @Column(name = "author", nullable = false, length = 35)
     private String author;
-
-    @Column(name = "edition", nullable = true)
+    @Column(name = "edition", nullable = true, length = 20)
     private String edition;
-
     @Column(name = "review", nullable = true)
     private String review;
-
     @Column(name = "resume", nullable = true)
     private String resume;
-
-    @Column(name = "ISBN", nullable = true)
+    @Column(name = "ISBN", nullable = true, length = 13)
     private String isbn;
 
+    @JsonBackReference(value="user-books")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "image_id")
+    private Media coverImage;
+
+    @JsonIgnoreProperties("books") // Ignore la propriété 'books' dans 'Category' pour éviter la récursion
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "User_id", nullable = false)
-    @JsonIgnore
-    private User user;
+    // @JsonBackReference(value="book-category") // Si je mets ça en commentaire, impossible de se connecter mais on voit la catégorie
+    // @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category bookCategory;
 
     public Long getId() {
         return id;
@@ -46,28 +51,20 @@ public class Book {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getOwnerId() {
-        return ownerId;
+    public Media getCoverImage() {
+        return coverImage;
     }
 
-    public void setOwnerId(String ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
+    public void setCoverImage(Media coverImage) {
+        this.coverImage = coverImage;
     }
 
     public String getAuthor() {
@@ -110,11 +107,19 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public User getUser() {
-        return user;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public Category getBookCategory() {
+        return bookCategory;
+    }
+
+    public void setBookCategory(Category bookCategory) {
+        this.bookCategory = bookCategory;
     }
 }
