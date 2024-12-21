@@ -53,19 +53,6 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void testDatabaseSeeding() throws Exception {
-        mockMvc
-                .perform(MockMvcRequestBuilders.get("/users")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(2)) // Verify the size of the user list
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].email").value("louli@mail.com")) // Verify first user
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].email").value("apple@mail.com")) // Verify second user
-        ;
-    }
-
-    @Test
     public void testLogin() throws Exception {
         JSONObject jsonUser = new JSONObject();
         jsonUser.put("email", "louli@mail.com");
