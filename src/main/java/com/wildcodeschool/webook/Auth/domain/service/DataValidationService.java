@@ -28,7 +28,7 @@ public class DataValidationService implements IDataValidationService {
 
     @Override
     public boolean UsernameValidation(String username) {
-        return Pattern.compile("^[a-zA-Z_.]{2,20}$", Pattern.CASE_INSENSITIVE)
+        return Pattern.compile("^[a-zA-Z0-9_.]{2,20}$", Pattern.CASE_INSENSITIVE)
                 .matcher(username)
                 .matches();
     }
@@ -42,7 +42,7 @@ public class DataValidationService implements IDataValidationService {
 
     @Override
     public boolean BookDataValidation(Book book) {
-        Boolean isTitleValid = Pattern.compile("^(?!\\s*$)[a-zA-Z0-9\\s]{1,100}$", Pattern.CASE_INSENSITIVE)
+        Boolean isTitleValid = Pattern.compile("^(?!\\s*$)[a-zA-Z0-9\\s\\-_,!?+]{1,100}$", Pattern.CASE_INSENSITIVE)
                 .matcher(book.getTitle())
                 .matches();
 
