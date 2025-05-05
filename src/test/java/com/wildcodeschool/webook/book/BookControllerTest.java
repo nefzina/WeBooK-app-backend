@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -65,12 +66,27 @@ public class BookControllerTest {
         book.put("bookCategory", category);
         // owner is set in the controller from the cookie data
 
+        // Create MockMultipartFile for the book JSON
+        MockMultipartFile bookPart = new MockMultipartFile(
+                "book",
+                "book.json",
+                MediaType.APPLICATION_JSON_VALUE,
+                book.toString().getBytes()
+        );
+
+        // Create MockMultipartFile for the cover image
+        MockMultipartFile imagePart = new MockMultipartFile(
+                "file",
+                "cover.jpg",
+                MediaType.IMAGE_JPEG_VALUE,
+                "dummy image content".getBytes()
+        );
+
         mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .post("/books")
+                        MockMvcRequestBuilders.multipart("/books")
+                                .file(bookPart)
+                                .file(imagePart)
                                 .cookie(loginHelper())
-                                .content(book.toString())
-                                .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("maybe someday"))
@@ -91,14 +107,26 @@ public class BookControllerTest {
         book.put("author", "");
         book.put("isbn", "1649");
         book.put("bookCategory", category);
-        // owner is set in the controller from the cookie data
+
+        MockMultipartFile bookPart = new MockMultipartFile(
+                "book",
+                "book.json",
+                MediaType.APPLICATION_JSON_VALUE,
+                book.toString().getBytes()
+        );
+
+        MockMultipartFile imagePart = new MockMultipartFile(
+                "file",
+                "cover.jpg",
+                MediaType.IMAGE_JPEG_VALUE,
+                "dummy image content".getBytes()
+        );
 
         mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .post("/books")
+                        MockMvcRequestBuilders.multipart("/books")
+                                .file(bookPart)
+                                .file(imagePart)
                                 .cookie(loginHelper())
-                                .content(book.toString())
-                                .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
         ;

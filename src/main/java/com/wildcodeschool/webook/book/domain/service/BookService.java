@@ -10,7 +10,12 @@ import com.wildcodeschool.webook.book.domain.entity.Book;
 import com.wildcodeschool.webook.book.domain.entity.Category;
 import com.wildcodeschool.webook.book.infrastructure.repository.BookRepository;
 import com.wildcodeschool.webook.book.infrastructure.exception.NotFoundException;
+import com.wildcodeschool.webook.fileUpload.domain.dto.MediaDTO;
+import com.wildcodeschool.webook.fileUpload.domain.entity.Media;
+import com.wildcodeschool.webook.fileUpload.domain.service.MediaMapper;
+import com.wildcodeschool.webook.fileUpload.domain.service.UploadService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,14 +28,18 @@ public class BookService {
     private final CategoryService categoryService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CookieService cookieService;
+    private final UploadService uploadService;
+    private final MediaMapper mediaMapper;
 
-    public BookService(BookRepository repository, DataValidationService dataValidationService, UserRepository userRepository, CategoryService categoryService, JwtAuthenticationFilter jwtAuthenticationFilter, CookieService cookieService) {
+    public BookService(BookRepository repository, DataValidationService dataValidationService, UserRepository userRepository, CategoryService categoryService, JwtAuthenticationFilter jwtAuthenticationFilter, CookieService cookieService, UploadService uploadService, MediaMapper mediaMapper) {
         this.repository = repository;
         this.dataValidationService = dataValidationService;
         this.userRepository = userRepository;
         this.categoryService = categoryService;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.cookieService = cookieService;
+        this.uploadService = uploadService;
+        this.mediaMapper = mediaMapper;
     }
 
     public List<Book> getAllBooks() {
@@ -56,12 +65,16 @@ public class BookService {
         return repository.findBooksByTitleIsContainingIgnoreCaseOrAuthorIsContainingIgnoreCase(keyword, keyword);
     }
 
-    public Book createBook(Book newBook) {
+    public Book createBook(Book newBook, MultipartFile file) {
         if (dataValidationService.BookDataValidation(newBook)) {
             newBook.setOwner(cookieService.getUserByCookie());
+
+            Media media = mediaMapper.transformMediaDTOIntoEntity(uploadService.store(file));
+            newBook.setCoverImage(media);
             return repository.save(newBook);
         } else throw new WrongDataFormatException("Book title, author or ISBN");
     }
+
 
     public Book updateBook(Book newBook, Long id) {
         if (dataValidationService.BookDataValidation(newBook)) {
