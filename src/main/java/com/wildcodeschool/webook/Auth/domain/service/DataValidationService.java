@@ -42,16 +42,16 @@ public class DataValidationService implements IDataValidationService {
 
     @Override
     public boolean BookDataValidation(Book book) {
-        Boolean isTitleValid = Pattern.compile("^(?!\\s*$)[a-zA-Z0-9\\s\\-_,!?+]{1,100}$", Pattern.CASE_INSENSITIVE)
+        Boolean isTitleValid = Pattern.compile("^(?!\\s*$)[a-zA-Z0-9\\s\\-_,!?+àçéèêôîûù]{1,100}$", Pattern.CASE_INSENSITIVE)
                 .matcher(book.getTitle())
                 .matches();
 
-        Boolean isAuthorValid = Pattern.compile("^(?!\\s*$)[a-zA-Z\\s]{1,35}$", Pattern.CASE_INSENSITIVE)
+        Boolean isAuthorValid = Pattern.compile("^(?!\\s*$)[a-zA-Z\\sàçéèêôîûù]{1,35}$", Pattern.CASE_INSENSITIVE)
                 .matcher(book.getAuthor())
                 .matches();
 
         if (book.getIsbn() != null) {
-            Boolean isIsbnValid = Pattern.compile("^([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10}$", Pattern.CASE_INSENSITIVE)
+            Boolean isIsbnValid = Pattern.compile("^(([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10})$", Pattern.CASE_INSENSITIVE)
                     .matcher(book.getIsbn())
                     .matches();
             return isTitleValid && isAuthorValid && isIsbnValid;

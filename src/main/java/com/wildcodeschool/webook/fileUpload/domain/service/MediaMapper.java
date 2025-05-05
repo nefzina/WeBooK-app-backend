@@ -12,4 +12,11 @@ public class MediaMapper {
                 media.getId(),
                 media.getFilename());
     }
+
+    public Media transformMediaDTOIntoEntity(MediaDTO mediaDTO) {
+        Media media = new Media();
+        media.setId(mediaDTO.id());
+        media.setFilename(mediaDTO.filename());
+        return media;
+    }
 }
