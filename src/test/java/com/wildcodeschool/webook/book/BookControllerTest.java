@@ -107,14 +107,26 @@ public class BookControllerTest {
         book.put("author", "");
         book.put("isbn", "1649");
         book.put("bookCategory", category);
-        // owner is set in the controller from the cookie data
+
+        MockMultipartFile bookPart = new MockMultipartFile(
+                "book",
+                "book.json",
+                MediaType.APPLICATION_JSON_VALUE,
+                book.toString().getBytes()
+        );
+
+        MockMultipartFile imagePart = new MockMultipartFile(
+                "file",
+                "cover.jpg",
+                MediaType.IMAGE_JPEG_VALUE,
+                "dummy image content".getBytes()
+        );
 
         mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .post("/books")
+                        MockMvcRequestBuilders.multipart("/books")
+                                .file(bookPart)
+                                .file(imagePart)
                                 .cookie(loginHelper())
-                                .content(book.toString())
-                                .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
         ;
