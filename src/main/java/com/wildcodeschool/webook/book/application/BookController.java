@@ -46,9 +46,11 @@ public class BookController {
         return bookService.getBooksByTitleOrAuthorName(keyword);
     }
 
-    @PostMapping(value = "/books")
-    public ResponseEntity<?> create(@RequestBody Book newBook) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.createBook(newBook));
+    @PostMapping(value = "/books", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> create(
+            @RequestPart("book") Book book,
+            @RequestPart("file") MultipartFile coverImage) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.createBook(book, coverImage));
     }
 
     @PutMapping("/books/{id}")
