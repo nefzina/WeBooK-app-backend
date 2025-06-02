@@ -31,7 +31,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/login", "/register", "/password-forgotten/**", "/new-password/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users/**", "/books/**", "/categories/**", "/uploads/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/books/**", "/categories/**", "/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/users/**").authenticated()
                         .requestMatchers(HttpMethod.POST, "/users/**","/books/**", "/categories/**", "/uploads/**").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/users/**","/books/**", "/categories/**").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/users/**","/books/**", "/categories/**", "/uploads/**").authenticated()
